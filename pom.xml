@@ -45,7 +45,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.metratec.lib.tileup.TileUp</mainClass>
+							<mainClass>com.metratec.lib.tileup.CLI</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -73,7 +73,7 @@
 					to know the mainClass as well.
 				-->
 				<configuration>
-					<mainClass>com.metratec.lib.tileup.TileUp</mainClass>
+					<mainClass>com.metratec.lib.tileup.CLI</mainClass>
 				</configuration>
 				<executions>
 					<execution>
