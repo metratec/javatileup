@@ -32,11 +32,11 @@ Usage is very similar to the Ruby gem Tile Up. Following options are available.
                                      --prefix=my_tile =>
                                      my_tile_[XN]_[YN].png.
  -th,--tile-height <arg>             Tile height, should normally equal
-                                     tile width.
+                                     tile width. Default is 256 pixels.
  -tw,--tile-width <arg>              Tile width, should normally equal
-                                     tile height.
+                                     tile height. Default is 256 pixels.
  -z,--zoom-levels <arg>              Scale input images specified number
-                                     of times.
+                                     of times. Default value is 1.
 ```
 To generate some tiles from a large image, you can use something like:
 ```

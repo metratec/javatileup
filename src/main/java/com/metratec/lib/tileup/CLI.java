@@ -12,6 +12,8 @@ import org.apache.commons.cli.Options;
 public class CLI {
 
   public static void main(String[] args) {
+    String usage = "java -jar TileUp.jar [options]";
+
     Options options = new Options();
 
     Option input = new Option("i", "in", true, "Required input file, your large image to tile up.");
@@ -26,11 +28,11 @@ public class CLI {
     prefix.setRequired(false);
     options.addOption(prefix);
 
-    Option width = new Option("tw", "tile-width", true, "Tile width, should normally equal tile height.");
+    Option width = new Option("tw", "tile-width", true, "Tile width, should normally equal tile height. Default is 256 pixels.");
     width.setRequired(false);
     options.addOption(width);
 
-    Option height = new Option("th", "tile-height", true, "Tile height, should normally equal tile width.");
+    Option height = new Option("th", "tile-height", true, "Tile height, should normally equal tile width. Default is 256 pixels.");
     height.setRequired(false);
     options.addOption(height);
 
@@ -38,7 +40,7 @@ public class CLI {
     auto.setRequired(false);
     options.addOption(auto);
 
-    Option zoom = new Option("z", "zoom-levels", true, "Scale input images specified number of times.");
+    Option zoom = new Option("z", "zoom-levels", true, "Scale input images specified number of times. Default value is 1.");
     zoom.setRequired(false);
     options.addOption(zoom);
 
@@ -55,11 +57,22 @@ public class CLI {
     HelpFormatter formatter = new HelpFormatter();
     CommandLine cmd;
 
+    // Check if help is requested, if yes show help and exit
+    int len = args.length;
+    if (len > 0) {
+      for (int i = 0; i < len; i++) {
+        if (args[i].equals("-h") || args[i].equals("--help")) {
+          formatter.printHelp(usage, options);
+          System.exit(0);
+        }
+      }
+    }
+
     try {
         cmd = parser.parse(options, args);
     } catch (Exception e) {
         System.out.println(e.getMessage());
-        formatter.printHelp("java -jar TileUp.jar", options);
+        formatter.printHelp(usage, options);
 
         System.exit(1);
         return;
@@ -70,29 +83,22 @@ public class CLI {
     String prefixName = cmd.getOptionValue("prefix", "");
     String tileWidth = cmd.getOptionValue("tile-width", "256");
     String tileHeight = cmd.getOptionValue("tile-height", "256");
-    String zoomlevel = cmd.getOptionValue("zoom-levels");
+    String zoomlevel = cmd.getOptionValue("zoom-levels", "1");
     boolean autozoom = cmd.hasOption("auto-zoom");
     boolean ext = !cmd.hasOption("dont-extend-incomplete-tiles");
-    boolean helpSet = cmd.hasOption("help");
-
-    if (helpSet) {
-      formatter.printHelp("java -jar TileUp.jar", options);
-      System.exit(0);
-    }
 
     int w = Integer.parseInt(tileWidth);
     int h = Integer.parseInt(tileHeight);
+    int z = Integer.parseInt(zoomlevel);
 
     try {
-      TileUp tu = new TileUp(inputFilePath, outputDirPath, prefixName, w, h, ext);
-      System.out.println("Image width: " + tu.getImageWidth());
-      System.out.println("Image height: " + tu.getImageHeight());
-
-      if (zoomlevel != null) {
-        tu.setZoomLevels(Integer.parseInt(zoomlevel));
-      } else if (autozoom) {
+      TileUp tu = new TileUp(inputFilePath, outputDirPath, prefixName, w, h, ext, z);
+      if (autozoom) {
         tu.setAutoZoom();
       }
+
+      System.out.println("Image width: " + tu.getImageWidth());
+      System.out.println("Image height: " + tu.getImageHeight());
 
       tu.createTiles();
     } catch(IOException ex) {
