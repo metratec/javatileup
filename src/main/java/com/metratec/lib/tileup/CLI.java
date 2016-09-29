@@ -9,6 +9,12 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 
+/**
+ * This class implements a command line interface (CLI) that allows users to
+ * create tiles from a large image file. This class basically creates an
+ * instance of {@link TileUp TileUp} based on the arguments provided by the user
+ * and calls {@link TileUp#createTiles() createTiles()}.
+ */
 public class CLI {
 
   public static void main(String[] args) {
@@ -92,7 +98,7 @@ public class CLI {
     int z = Integer.parseInt(zoomlevel);
 
     try {
-      TileUp tu = new TileUp(inputFilePath, outputDirPath, prefixName, w, h, ext, z);
+      TileUp tu = new TileUp(inputFilePath, outputDirPath, prefixName, w, h, z, ext);
       if (autozoom) {
         tu.setAutoZoom();
       }
