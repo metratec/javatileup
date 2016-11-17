@@ -20,11 +20,11 @@
 	</properties>
 
 	<!-- metraTec's parent POM -->
-	<parent>
+	<!--parent>
 		<groupId>com.metratec</groupId>
 		<artifactId>metraTec</artifactId>
 		<version>2</version>
-	</parent>
+	</parent-->
 
 	<dependencies>
 		<!--
