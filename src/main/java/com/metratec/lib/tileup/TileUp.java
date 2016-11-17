@@ -358,16 +358,17 @@ public class TileUp {
         double scale = Math.pow(2.0, z);
         total += (int) (Math.ceil(imageWidth / (tileWidth * scale)) * Math.ceil(imageHeight / (tileHeight * scale)));
       }
+      BufferedImage sm;
       for (int z = 0; z < zoomLevels; z++) {
         String subdirpath = String.format("%s/%d", outDir, 20 - z);
         File subdir = new File(subdirpath);
         if (!subdir.exists()) {
           subdir.mkdir();
         }
-
+        System.gc();
         double scale = Math.pow(2.0, z);
         double scale_inv = 1.0 / scale;
-        BufferedImage sm = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
+        sm = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
         AffineTransform at = new AffineTransform();
         at.scale(scale_inv, scale_inv);
         AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
@@ -382,20 +383,27 @@ public class TileUp {
           img_ext = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
         }
         img_ext.setData(sm.getData());
+        sm = null;
+        scaleOp = null;
+        at = null;
+        System.gc();
+        BufferedImage out;
         for (int i = 0; i * tileWidth * scale < imageWidth; i++) {
           for (int j = 0; j * tileHeight * scale < imageHeight; j++) {
-            BufferedImage out;
             if (extended) {
               out = img_ext.getSubimage(i * tileWidth, j * tileHeight, tileWidth, tileHeight);
             } else {
               out = img_ext.getSubimage(i * tileWidth, j * tileHeight, Math.min(tileWidth, imageWidth - i * tileWidth),
                   Math.min(tileHeight, imageHeight - j * tileHeight));
             }
+            System.gc();
             String filename = String.format("%s/%s_%d_%d.png", subdirpath, prefix, i, j);
             File outputfile = new File(filename);
             ImageIO.write(out, "png", outputfile);
             callback.createTilesProgress(filename, count, total);
             count++;
+            out = null;
+            System.gc();
           }
         }
       }
@@ -403,6 +411,7 @@ public class TileUp {
     } catch (IOException e) {
       callback.createTilesResult(CreateTilesCallback.RESULT_ERROR, e);
     }
+    System.gc();
   }
 
   /**

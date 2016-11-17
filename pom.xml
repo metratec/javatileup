@@ -9,7 +9,7 @@
 
 	<groupId>com.metratec.lib.tileup</groupId>
 	<artifactId>TileUp</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<packaging>jar</packaging>
 
 	<name>Tile Up</name>
@@ -20,11 +20,11 @@
 	</properties>
 
 	<!-- metraTec's parent POM -->
-	<!--parent>
+	<parent>
 		<groupId>com.metratec</groupId>
 		<artifactId>metraTec</artifactId>
 		<version>2</version>
-	</parent-->
+	</parent>
 
 	<dependencies>
 		<!--
