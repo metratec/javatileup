@@ -1,7 +1,5 @@
 package com.metratec.lib.tileup;
 
-import java.io.IOException;
-
 /**
  * @author man
  *
@@ -29,5 +27,5 @@ public interface CreateTilesCallback {
    * @param e if retval set to {@link #RESULT_ERROR} then this is set, otherwise null
    * 
    */
-  void createTilesResult(int retval, IOException e);
+  void createTilesResult(int retval, Exception e);
 }

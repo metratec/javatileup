@@ -408,7 +408,7 @@ public class TileUp {
         }
       }
       callback.createTilesResult(CreateTilesCallback.RESULT_OK, null);
-    } catch (IOException e) {
+    } catch (Exception e) {
       callback.createTilesResult(CreateTilesCallback.RESULT_ERROR, e);
     }
     System.gc();
@@ -436,9 +436,9 @@ public class TileUp {
    * generated for zooms of 20, 19, 18 and 17. See {@link #setZoomLevels(int) setZoomLevels(int)}
    * and {@link #setAutoZoom() setAutoZoom()}.
    *
-   * @throws IOException if output files or directories can not be created
+   * @throws Exception if output files or directories can not be created or a other error occurs
    */
-  public void createTiles() throws IOException {
+  public void createTiles() throws Exception {
     SynCreateTilesCallback callback = new SynCreateTilesCallback();
     createTiles(callback);
     while (!callback.isFinish()) {
@@ -447,8 +447,8 @@ public class TileUp {
       } catch (InterruptedException e) {
       }
     }
-    if (null != callback.getIOException()) {
-      throw callback.getIOException();
+    if (null != callback.getException()) {
+      throw callback.getException();
     }
   }
 }

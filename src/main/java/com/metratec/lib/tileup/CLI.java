@@ -1,7 +1,5 @@
 package com.metratec.lib.tileup;
 
-import java.io.IOException;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -10,10 +8,9 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 
 /**
- * This class implements a command line interface (CLI) that allows users to
- * create tiles from a large image file. This class basically creates an
- * instance of {@link TileUp TileUp} based on the arguments provided by the user
- * and calls {@link TileUp#createTiles() createTiles()}.
+ * This class implements a command line interface (CLI) that allows users to create tiles from a
+ * large image file. This class basically creates an instance of {@link TileUp TileUp} based on the
+ * arguments provided by the user and calls {@link TileUp#createTiles() createTiles()}.
  */
 public class CLI {
 
@@ -30,28 +27,33 @@ public class CLI {
     outputDir.setRequired(false);
     options.addOption(outputDir);
 
-    Option prefix = new Option("p", "prefix", true, "Prefix to append to tile files, e.g. --prefix=my_tile => my_tile_[XN]_[YN].png.");
+    Option prefix = new Option("p", "prefix", true,
+        "Prefix to append to tile files, e.g. --prefix=my_tile => my_tile_[XN]_[YN].png.");
     prefix.setRequired(false);
     options.addOption(prefix);
 
-    Option width = new Option("tw", "tile-width", true, "Tile width, should normally equal tile height. Default is 256 pixels.");
+    Option width =
+        new Option("tw", "tile-width", true, "Tile width, should normally equal tile height. Default is 256 pixels.");
     width.setRequired(false);
     options.addOption(width);
 
-    Option height = new Option("th", "tile-height", true, "Tile height, should normally equal tile width. Default is 256 pixels.");
+    Option height =
+        new Option("th", "tile-height", true, "Tile height, should normally equal tile width. Default is 256 pixels.");
     height.setRequired(false);
     options.addOption(height);
 
-    Option auto = new Option("a", "auto-zoom", false, "Automatically scale input images based on image size and tile size.");
+    Option auto =
+        new Option("a", "auto-zoom", false, "Automatically scale input images based on image size and tile size.");
     auto.setRequired(false);
     options.addOption(auto);
 
-    Option zoom = new Option("z", "zoom-levels", true, "Scale input images specified number of times. Default value is 1.");
+    Option zoom =
+        new Option("z", "zoom-levels", true, "Scale input images specified number of times. Default value is 1.");
     zoom.setRequired(false);
     options.addOption(zoom);
 
     Option extend = new Option("n", "dont-extend-incomplete-tiles", false,
-                               "Do not extend edge tiles if they do not fill an entire tile_width x tile_height.");
+        "Do not extend edge tiles if they do not fill an entire tile_width x tile_height.");
     extend.setRequired(false);
     options.addOption(extend);
 
@@ -75,13 +77,13 @@ public class CLI {
     }
 
     try {
-        cmd = parser.parse(options, args);
+      cmd = parser.parse(options, args);
     } catch (Exception e) {
-        System.out.println(e.getMessage());
-        formatter.printHelp(usage, options);
+      System.out.println(e.getMessage());
+      formatter.printHelp(usage, options);
 
-        System.exit(1);
-        return;
+      System.exit(1);
+      return;
     }
 
     String inputFilePath = cmd.getOptionValue("in");
@@ -107,7 +109,7 @@ public class CLI {
       System.out.println("Image height: " + tu.getImageHeight());
 
       tu.createTiles();
-    } catch(IOException ex) {
+    } catch (Exception ex) {
       ex.printStackTrace();
     }
   }

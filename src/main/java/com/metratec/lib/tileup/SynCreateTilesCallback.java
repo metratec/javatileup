@@ -1,7 +1,5 @@
 package com.metratec.lib.tileup;
 
-import java.io.IOException;
-
 /**
  * @author man
  *
@@ -9,7 +7,7 @@ import java.io.IOException;
 class SynCreateTilesCallback implements CreateTilesCallback {
 
   private Integer status;
-  private IOException exception;
+  private Exception exception;
 
   @Override
   public void createTilesProgress(String createdTile, int count, int total) {
@@ -18,7 +16,7 @@ class SynCreateTilesCallback implements CreateTilesCallback {
   }
 
   @Override
-  public void createTilesResult(int retval, IOException e) {
+  public void createTilesResult(int retval, Exception e) {
     status = retval;
     exception = e;
   }
@@ -31,9 +29,9 @@ class SynCreateTilesCallback implements CreateTilesCallback {
   }
 
   /**
-   * @return the {@link IOException}, if an error occurs
+   * @return the {@link Exception}, if an error occurs
    */
-  protected IOException getIOException() {
+  protected Exception getException() {
     return exception;
   }
 }
